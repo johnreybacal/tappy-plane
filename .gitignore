@@ -1,0 +1,50 @@
+# This .gitignore file is for Unity projects
+# For details see: https://github.com/github/gitignore/blob/main/Unity.gitignore
+
+# OS generated files #
+.DS_Store
+Thumbs.db
+
+# User-specific files #
+*.swp
+*.swo
+*.tmp
+*.bak
+*.pid
+
+# Unity generated folders/files #
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+Logs/
+UserSettings/
+
+# Asset meta data should only be ignored when the corresponding asset is also ignored
+*.pidb
+*.booproj
+*.svd
+
+# Visual Studio / MonoDevelop generated files #
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+.idea/
+
+# Crash and error logs #
+sysinfo.txt
+
+# Builds
+*.apk
+*.aab
+*.unitypackage
+
+
