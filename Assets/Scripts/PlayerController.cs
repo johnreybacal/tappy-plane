@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
 
     private GameManager gameManager;
 
+    private bool isInTopWall = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -25,7 +27,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         bool isTapped = Input.GetButtonDown("Jump") || Input.GetMouseButtonDown(0);
-        if (isTapped && gameManager.IsPlaying)
+        if (isTapped && gameManager.IsPlaying && !isInTopWall)
         {
             Jump();
         }
@@ -59,11 +61,14 @@ public class PlayerController : MonoBehaviour
     {
         hitSound.pitch = Random.Range(0.7f, 1.3f);
         hitSound.Play();
-        collider2d.enabled = false;
-        Destroy(gameObject, 2);
-        if (gameManager.IsPlaying)
+        if (collision.gameObject.CompareTag("Obstacle"))
         {
-            gameManager.GameOver();
+            collider2d.enabled = false;
+            Destroy(gameObject, 2);
+            if (gameManager.IsPlaying)
+            {
+                gameManager.GameOver(.5f);
+            }
         }
     }
 
@@ -73,6 +78,18 @@ public class PlayerController : MonoBehaviour
         {
             gameManager.AddScore();
             other.enabled = false;
+        }
+        if (other.CompareTag("TopWall"))
+        {
+            isInTopWall = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("TopWall"))
+        {
+            isInTopWall = false;
         }
     }
 }

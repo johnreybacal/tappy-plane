@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -93,7 +94,7 @@ public class GameManager : MonoBehaviour
         scoreSound.Play();
     }
 
-    public void GameOver()
+    public void GameOver(float delay = 0)
     {
         // Time.timeScale = 0;
         if (score > highScore)
@@ -104,8 +105,27 @@ public class GameManager : MonoBehaviour
             UpdateHighScoreText();
         }
         IsPlaying = false;
-        gameOverSound.PlayDelayed(1f);
+
+        if (delay > 0)
+        {
+            StartCoroutine(ShowDelayedGameOver(delay));
+        }
+        else
+        {
+            ShowGameOver();
+        }
+    }
+
+    private void ShowGameOver()
+    {
+        gameOverSound.PlayDelayed(.5f);
         gameOverPanel.SetActive(true);
+    }
+
+    private IEnumerator ShowDelayedGameOver(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ShowGameOver();
     }
 
     public void RestartGame()
