@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - ScoreTrigger
+  - GetReady
   layers:
   - Default
   - TransparentFX

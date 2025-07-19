@@ -11,18 +11,21 @@ public class PlayerController : MonoBehaviour
     public AudioSource hitSound;
 
     private Rigidbody2D rb;
+    private Collider2D collider2d;
 
     private GameManager gameManager;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        collider2d = GetComponent<Collider2D>();
         gameManager = FindFirstObjectByType<GameManager>();
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && gameManager.IsPlaying)
+        bool isTapped = Input.GetButtonDown("Jump") || Input.GetMouseButtonDown(0);
+        if (isTapped && gameManager.IsPlaying)
         {
             Jump();
         }
@@ -30,7 +33,7 @@ public class PlayerController : MonoBehaviour
         RotatePlayer();
     }
 
-    void Jump()
+    public void Jump()
     {
         jumpSound.pitch = Random.Range(0.7f, 1.3f);
         jumpSound.Play();
@@ -54,9 +57,10 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision Enter");
         hitSound.pitch = Random.Range(0.7f, 1.3f);
         hitSound.Play();
+        collider2d.enabled = false;
+        Destroy(gameObject, 2);
         if (gameManager.IsPlaying)
         {
             gameManager.GameOver();
@@ -65,7 +69,6 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Trigger Enter");
         if (other.CompareTag("ScoreTrigger"))
         {
             gameManager.AddScore();
